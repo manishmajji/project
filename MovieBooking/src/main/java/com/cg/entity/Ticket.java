@@ -1,0 +1,106 @@
+package com.cg.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Entity
+@Table(name="tickets")
+@DynamicInsert
+public class Ticket {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="ticket_id")
+	private int ticketId;
+	
+	@Column(name="no_of_seats")
+	private int noOfSeats;
+	
+	@Column(name="seat_name")
+	private String[] seatName;
+	
+	@OneToOne
+	@Autowired
+	private Booking bookingRef;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@Autowired
+	private Customer customer;
+	
+	
+	@Column(name="ticket_status")
+	private Boolean ticketStatus;
+	
+	@Column(name="screen_name")
+	private String screenName;
+
+	
+	
+	public Ticket() {
+		super();
+	}
+
+	public int getTicketId() {
+		return ticketId;
+	}
+
+	public void setTicketId(int ticketId) {
+		this.ticketId = ticketId;
+	}
+
+	public int getNoOfSeats() {
+		return noOfSeats;
+	}
+
+	public void setNoOfSeats(int noOfSeats) {
+		this.noOfSeats = noOfSeats;
+	}
+
+	public String[] getSeatName() {
+		return seatName;
+	}
+
+	public void setSeatName(String[] seatName) {
+		this.seatName = seatName;
+	}
+
+	public Booking getBookingRef() {
+		return bookingRef;
+	}
+
+	public void setBookingRef(Booking bookingRef) {
+		this.bookingRef = bookingRef;
+	}
+
+	public Boolean getTicketStatus() {
+		return ticketStatus;
+	}
+
+	public void setTicketStatus(Boolean ticketStatus) {
+		this.ticketStatus = ticketStatus;
+	}
+
+	public String getScreenName() {
+		return screenName;
+	}
+
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
+	}
+	
+	
+	
+	
+	
+}
