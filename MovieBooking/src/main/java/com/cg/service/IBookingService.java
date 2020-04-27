@@ -1,7 +1,7 @@
 package com.cg.service;
 
 public interface IBookingService {
-	public double totalCost(int seatId);
+	public double totalCost(int seatId,int noOfSeats);
 	
 
 }
