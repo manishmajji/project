@@ -1,4 +1,5 @@
 package com.cg.entity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,12 +13,21 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.core.sym.Name;
 
 @Entity
 @Table(name="seats")
 @DynamicInsert
 @DynamicUpdate
+//@JsonIgnoreProperties("seats")
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class,property="seatId")
 public class Seat {
 
 	@Id
@@ -33,6 +43,9 @@ public class Seat {
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Show show;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Customer customer;
 	
 	public Seat() {
 		super();
@@ -55,7 +68,7 @@ public class Seat {
 		this.seatId = seatId;
 	}
 
-	public double getSeatPrice() {
+	public Double getSeatPrice() {
 		return seatPrice;
 	}
 
@@ -70,11 +83,30 @@ public class Seat {
 	public void setSeatStatus(SeatState seatStatus) {
 		this.seatStatus = seatStatus;
 	}
+
+	@JsonIgnore
+	public Customer getCustomer() {
+		return customer;
+	}
 	
-	
-	
-	
-	
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+
+	public Show getShow() {
+		return show;
+	}
+
+
+	public void setShow(Show show) {
+		this.show = show;
+	}
+
+
+	public void setSeatPrice(Double seatPrice) {
+		this.seatPrice = seatPrice;
+	}
 	
 
 }

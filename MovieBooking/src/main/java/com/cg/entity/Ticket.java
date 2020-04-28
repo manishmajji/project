@@ -1,5 +1,6 @@
 package com.cg.entity;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,9 +15,16 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="tickets")
 @DynamicInsert
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class,property="ticketId")
 public class Ticket {
 
 	@Id
@@ -32,10 +40,12 @@ public class Ticket {
 	
 	@OneToOne
 	@Autowired
+//	@JsonBackReference
 	private Booking bookingRef;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@Autowired
+//	@JsonBackReference
 	private Customer customer;
 	
 	
@@ -98,9 +108,5 @@ public class Ticket {
 	public void setScreenName(String screenName) {
 		this.screenName = screenName;
 	}
-	
-	
-	
-	
 	
 }

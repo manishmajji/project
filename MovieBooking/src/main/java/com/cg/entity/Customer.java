@@ -1,4 +1,5 @@
 package com.cg.entity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,10 +20,17 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="customers")
 @DynamicUpdate
 @DynamicInsert
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class,property="userId")
 public class Customer extends User {
 	
 	@Column(name="username")
@@ -34,10 +42,12 @@ public class Customer extends User {
 	
 	@OneToMany(mappedBy="customer")
 	@Autowired
+//	@JsonManagedReference
 	private Set<Booking> booking;
 	
 	@OneToMany(mappedBy="customer")
 	@Autowired
+//	@JsonManagedReference
 	private Set<Ticket> ticket;
 	
 	@Column(name="contact")
@@ -66,7 +76,7 @@ public class Customer extends User {
 		this.email = email;
 	}
 
-
+@JsonIgnore
 	public Set<Booking> getBookings() {
 		return booking;
 	}
@@ -75,14 +85,16 @@ public class Customer extends User {
 		booking = booking;
 	}
 
-	public Set<Ticket> getBooking() {
+	@JsonIgnore
+	public Set<Ticket> getTicket() {
 		return ticket;
 	}
 
-	public void setBooking(Set<Ticket> ticket) {
+	public void setTicket(Set<Ticket> ticket) {
 		ticket = ticket;
 	}
 
+	@JsonIgnore
 	public String getContact() {
 		return contact;
 	}

@@ -1,20 +1,20 @@
 package com.cg.service;
 
 import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cg.dao.BookingDao;
+
 import com.cg.dao.IBookingDao;
 import com.cg.dao.IUniversalDao;
-import com.cg.dao.TicketDao;
+
 import com.cg.entity.Booking;
 import com.cg.entity.Payment;
 import com.cg.entity.PaymentType;
@@ -30,7 +30,13 @@ public class BookingService implements IBookingService {
 	@Autowired
 	IBookingDao dao;
 	IUniversalDao<Payment> paymentdao;
-	Payment payment;
+	
+	IUniversalDao<Booking> bookingdao;
+	
+	IUniversalDao<Ticket> ticketdao;
+	
+	IUniversalDao<Seat> seatdao;
+	
 	
 	@Override
 	public double totalCost(int seatId,int noOfSeats) {
@@ -41,7 +47,7 @@ public class BookingService implements IBookingService {
 	}
 	
 	public Payment generatePayment() {
-		
+		Payment payment=new Payment();
 		payment.setPaymentStatus(false);
 		payment.setDate(LocalDateTime.now());
 		
@@ -53,6 +59,7 @@ public class BookingService implements IBookingService {
 	
 	
 	public Payment generatePaymentSuccess(List<Seat> seatstate) {
+		Payment payment=new Payment();
 		payment.setPaymentStatus(true);
 		payment.setDate(LocalDateTime.now());
 		payment.setAmount(priceCalculator(seatstate));
@@ -89,12 +96,10 @@ public class BookingService implements IBookingService {
 		b.setTotalCost(priceCalculator(seats));
 		b.setShowId(show.getShowId());
 		Payment p=paymentdao.findById(generatePaymentSuccess(seats).getId());
-	
-		//b.setShow(seats[0].);
 		b.setTransactionId(p.getId());
-		BookingDao.save(b);
-		b.setTicket(generateTicket(BookingDao.find(b), show, seats));
-		BookingDao.update(b);
+		bookingdao.save(b);
+		b.setTicket(generateTicket(bookingdao.findById(b.getBookingId()), show, seats));
+		bookingdao.update(b);
 		return b;
 		
 	}
@@ -105,7 +110,7 @@ public class BookingService implements IBookingService {
 		t.setNoOfSeats(seats.size());
 		t.setBookingRef(bookingRef);
 		t.setTicketStatus(true);
-		TicketDao.save(t);
+		ticketdao.save(t);
 		return t;
 	}
 	
@@ -129,7 +134,7 @@ public class BookingService implements IBookingService {
 		for (Iterator iterator = seats.iterator(); iterator.hasNext();) {
 			Seat seat = (Seat) iterator.next();
 			seat.setSeatStatus(SeatState.BOOKED);
-			SeatDao.update(seat);
+			seatdao.update(seat);
 		}
 	}
 
