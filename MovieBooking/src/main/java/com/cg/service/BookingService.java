@@ -21,7 +21,9 @@ import com.cg.entity.PaymentType;
 import com.cg.entity.Seat;
 import com.cg.entity.SeatState;
 import com.cg.entity.Show;
+import com.cg.entity.Theatre;
 import com.cg.entity.Ticket;
+import com.cg.entity.User;
 @Service
 @Transactional
 public class BookingService implements IBookingService {
@@ -46,7 +48,7 @@ public class BookingService implements IBookingService {
 		return totalPrice;
 	}
 	
-	public Payment generatePayment() {
+	public Payment generatePaymentFailed() {
 		Payment payment=new Payment();
 		payment.setPaymentStatus(false);
 		payment.setDate(LocalDateTime.now());
@@ -78,7 +80,7 @@ public class BookingService implements IBookingService {
 		b.setBookingDate(LocalDate.now());
 		b.setTotalCost(priceCalculator(seats));
 		b.setShowId(show.getShowId());
-		Payment p=paymentdao.findById(generatePayment().getId());
+		Payment p=paymentdao.findById(generatePaymentFailed().getId());
 		
 		//b.setShow(seats[0].);
 		b.setTransactionId(p.getId());
@@ -99,6 +101,7 @@ public class BookingService implements IBookingService {
 		b.setTransactionId(p.getId());
 		bookingdao.save(b);
 		b.setTicket(generateTicket(bookingdao.findById(b.getBookingId()), show, seats));
+		bookSeats(seats);
 		bookingdao.update(b);
 		return b;
 		
@@ -114,8 +117,12 @@ public class BookingService implements IBookingService {
 		return t;
 	}
 	
-	public void CancelBooking(Seat seatstate) {
-		seatstate.setSeatStatus(SeatState.AVAILABLE);
+	public void CancelBooking(List<Seat> seats) {
+		for (Iterator iterator = seats.iterator(); iterator.hasNext();) {
+			Seat seat = (Seat) iterator.next();
+			seat.setSeatStatus(SeatState.AVAILABLE);
+			seatdao.update(seat);
+		}
 		
 	}
 	
@@ -137,5 +144,4 @@ public class BookingService implements IBookingService {
 			seatdao.update(seat);
 		}
 	}
-
 }
