@@ -1,46 +1,57 @@
 package com.cg.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cg.dao.SeatDao;
+import com.cg.entity.Booking;
 import com.cg.entity.Seat;
-import com.cg.entity.Theatre;
-import com.cg.entity.Ticket;
-import com.cg.exception.MovieBookingException;
+
 import com.cg.service.IBookingService;
 
-
-
-
 @RestController
-
+@CrossOrigin(origins = "http://localhost:4200")
 public class MovieController {
 	@Autowired
 	IBookingService service;
 	
-	@PostMapping("/seatfare/{seatId}/{noOfSeats}")
-	public double calculateFare(@PathVariable("seatId") int seatId,@PathVariable("noOfSeats") int noOfSeats)
+	@Autowired
+	SeatDao dao;
+	
+	@GetMapping("/seatfare")
+	public double calculateFare()
 	{
-		double totalFare=service.totalCost(seatId,noOfSeats);
+		List<Seat> seats = new ArrayList<Seat>() ;
+		double totalFare = service.totalCost(seats);
 		return totalFare;
-		//String statement="total cost"+totalFare;
-		//return new ResponseEntity<Double>(totalFare,HttpStatus.OK);
-	}
-	/*
-	@GetMapping("/payment"){
-		service.generatePaymentSuccess(null);
 	}
 	
+	@GetMapping("/paymentfailed")
+	public Booking paymentFailed(){
+		List<Seat> seats = new ArrayList<Seat>() ;
+		//Show show=null; 
+		return service.generateFailedBooking(seats);
+	}
+	
+	@GetMapping("/ticketdetails")
+	public Booking paymentSuccess(){
+		List<Seat> seats = new ArrayList<Seat>() ;
+		 
+		return service.generateSuccessBooking(seats);
+	}
+	@GetMapping("/cancelbooking")
+	public boolean cancel() {
+		List<Seat> seats = new ArrayList<Seat>();
+		service.cancelBooking(seats);
+		return true;
+	}
+	/*
 	@GetMapping("/getTicketDetails")
 	public List<Ticket> getTicketDetails(@RequestBody Ticket ticket) {
 		List<Ticket> ticketDetails=service.getTicketDetails();

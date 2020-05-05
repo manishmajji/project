@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,7 @@ import com.cg.entity.Seat;
 
 
 @Repository
+@Transactional
 public class BookingDao implements IBookingDao,IUniversalDao<Booking> {
 	@PersistenceContext
 	EntityManager em;

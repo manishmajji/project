@@ -6,11 +6,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Repository;
 
 import com.cg.entity.Movie;
 import com.cg.entity.Payment;
 import com.cg.entity.Show;
-
+@Repository
+@Transactional
 public class PaymentDao implements IUniversalDao<Payment>{
 	@PersistenceContext
 	private EntityManager em;

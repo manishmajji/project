@@ -33,6 +33,7 @@ public class SeatDao implements IUniversalDao<Seat>,ISeatDao {
 		{
 			throw new EntityNotFoundException();
 		}
+		System.out.println(seat.getSeatPrice());
 		return seat;
 	}
 

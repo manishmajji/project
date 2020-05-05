@@ -2,22 +2,32 @@ package com.cg.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="transactions")
 public class Payment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column
 	private int id;
+	@Column
 	private double amount;
+	@Column
 	private boolean paymentStatus;
+	@Column
 	private PaymentType paymentType;
+	@Column(name="time")
 	private LocalDateTime date=LocalDateTime.now();
 	@OneToOne
+	@JoinColumn(name="bookingId",referencedColumnName = "booking_id")
 	private Booking booking;
 	public int getId() {
 		return id;

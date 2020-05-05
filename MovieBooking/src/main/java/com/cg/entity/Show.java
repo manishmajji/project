@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="shows")
 @DynamicUpdate
@@ -38,6 +40,7 @@ public class Show {
 	
 	
 	@OneToMany(mappedBy="show",cascade=CascadeType.ALL,orphanRemoval=true)
+	
 	private List<Seat> seats;
 	
 	@Column(name="show_name")
