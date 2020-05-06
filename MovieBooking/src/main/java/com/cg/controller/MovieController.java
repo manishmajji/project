@@ -1,6 +1,7 @@
 package com.cg.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 
@@ -18,7 +19,6 @@ import com.cg.dao.TicketDao;
 import com.cg.entity.Seat;
 import com.cg.entity.Theatre;
 import com.cg.entity.Ticket;
-import com.cg.exception.MovieBookingException;
 import com.cg.service.IBookingService;
 
 @RestController
