@@ -7,12 +7,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.dao.SeatDao;
-import com.cg.entity.Booking;
-import com.cg.entity.Seat;
+import com.cg.dao.TicketDao;
 
+import com.cg.entity.Seat;
+import com.cg.entity.Theatre;
+import com.cg.entity.Ticket;
+import com.cg.exception.MovieBookingException;
 import com.cg.service.IBookingService;
 
 @RestController
@@ -20,10 +26,11 @@ import com.cg.service.IBookingService;
 public class MovieController {
 	@Autowired
 	IBookingService service;
-	
-	@Autowired
-	SeatDao dao;
-	
+	/**************************************************************************************************
+	 *@GetMapping              -Handles HTTP GET requests.
+     *created by               -Manish
+     *created date             -21-APR-2020
+**************************************************************************************************/
 	@GetMapping("/seatfare")
 	public double calculateFare()
 	{
@@ -31,42 +38,28 @@ public class MovieController {
 		double totalFare = service.totalCost(seats);
 		return totalFare;
 	}
-	
-	@GetMapping("/paymentfailed")
-	public Booking paymentFailed(){
+	/**************************************************************************************************
+	 *@GetMapping              -Handles HTTP GET requests.
+     *created by               -Manish
+     *created date             -21-APR-2020
+**************************************************************************************************/
+	@GetMapping("/ticket")
+	@ResponseBody
+	public Ticket ticketdetails()
+	{
 		List<Seat> seats = new ArrayList<Seat>() ;
-		//Show show=null; 
-		return service.generateFailedBooking(seats);
+		return service.ticketDetails(seats);
 	}
-	
-	@GetMapping("/ticketdetails")
-	public Booking paymentSuccess(){
-		List<Seat> seats = new ArrayList<Seat>() ;
-		 
-		return service.generateSuccessBooking(seats);
-	}
+	/**************************************************************************************************
+	 *@GetMapping              -Handles HTTP GET requests.
+     *created by               -Manish
+     *created date             -21-APR-2020
+**************************************************************************************************/
 	@GetMapping("/cancelbooking")
 	public boolean cancel() {
 		List<Seat> seats = new ArrayList<Seat>();
 		service.cancelBooking(seats);
 		return true;
 	}
-	/*
-	@GetMapping("/getTicketDetails")
-	public List<Ticket> getTicketDetails(@RequestBody Ticket ticket) {
-		List<Ticket> ticketDetails=service.getTicketDetails();
-		return ticketDetails;
-	}
-	@GetMapping("/getTheater/{movieId}")
-	public List<Theatre> getTheater(@PathVariable("movieId") int movieId) throws MovieBookingException{
-		List<Theatre> theaterList =service.getTheater(movieId);
-		if(theaterList.isEmpty())
-		{
-			 throw new MovieBookingException("movie id is not found"+movieId);
-		}
-		return theaterList;
-	}
-*/
-
 }
 	

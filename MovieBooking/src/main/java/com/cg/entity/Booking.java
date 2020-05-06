@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -41,7 +42,6 @@ public class Booking {
 	@OneToOne
 	@Autowired
 	private Show showRef;
-	
 	
 	@Column(name="booking_date")
 	private LocalDate bookingDate;
@@ -90,12 +90,12 @@ public class Booking {
 		this.movie = movie;
 	}
 
-	public Show getShow() {
+	public Show getShowRef() {
 		return showRef;
 	}
 
-	public void setShow(Show show) {
-		this.showRef = show;
+	public void setShowRef(Show showRef) {
+		this.showRef = showRef;
 	}
 
 	public LocalDate getBookingDate() {
@@ -106,7 +106,7 @@ public class Booking {
 		this.bookingDate = bookingDate;
 	}
 
-	public double getTotalCost() {
+	public Double getTotalCost() {
 		return totalCost;
 	}
 
@@ -130,29 +130,20 @@ public class Booking {
 		this.ticket = ticket;
 	}
 
-	public int getTransactionId() {
+	public Integer getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(int transactionId) {
+	public void setTransactionId(Integer transactionId) {
 		this.transactionId = transactionId;
 	}
 
-
-	public int getShowId() {
+	public Integer getShowId() {
 		return showId;
 	}
 
-	public void setShowId(int showId) {
+	public void setShowId(Integer showId) {
 		this.showId = showId;
-	}
-
-	public Show getShowRef() {
-		return showRef;
-	}
-
-	public void setShowRef(Show showRef) {
-		this.showRef = showRef;
 	}
 
 	public Customer getCustomer() {
@@ -163,15 +154,104 @@ public class Booking {
 		this.customer = customer;
 	}
 
-	public void setTransactionId(Integer transactionId) {
-		this.transactionId = transactionId;
-	}
-
-	public void setShowId(Integer showId) {
-		this.showId = showId;
-	}
-	
-	
+//	public Integer getBookingId() {
+//		return bookingId;
+//	}
+//
+//	public void setBookingId(Integer bookingId) {
+//		this.bookingId = bookingId;
+//	}
+//
+//	public Movie getMovie() {
+//		return movie;
+//	}
+//
+//	public void setMovie(Movie movie) {
+//		this.movie = movie;
+//	}
+//
+//	public Show getShow() {
+//		return showRef;
+//	}
+//
+//	public void setShow(Show show) {
+//		this.showRef = show;
+//	}
+//
+//	public LocalDate getBookingDate() {
+//		return bookingDate;
+//	}
+//
+//	public void setBookingDate(LocalDate bookingDate) {
+//		this.bookingDate = bookingDate;
+//	}
+//
+//	public double getTotalCost() {
+//		return totalCost;
+//	}
+//
+//	public void setTotalCost(Double totalCost) {
+//		this.totalCost = totalCost;
+//	}
+//
+//	public List<Seat> getSeatList() {
+//		return seatList;
+//	}
+//
+//	public void setSeatList(List<Seat> seatList) {
+//		this.seatList = seatList;
+//	}
+//
+//	public Ticket getTicket() {
+//		return ticket;
+//	}
+//
+//	public void setTicket(Ticket ticket) {
+//		this.ticket = ticket;
+//	}
+//
+//	public int getTransactionId() {
+//		return transactionId;
+//	}
+//
+//	public void setTransactionId(int transactionId) {
+//		this.transactionId = transactionId;
+//	}
+//
+//
+//	public int getShowId() {
+//		return showId;
+//	}
+//
+//	public void setShowId(int showId) {
+//		this.showId = showId;
+//	}
+//
+//	public Show getShowRef() {
+//		return showRef;
+//	}
+//
+//	public void setShowRef(Show showRef) {
+//		this.showRef = showRef;
+//	}
+//
+//	public Customer getCustomer() {
+//		return customer;
+//	}
+//
+//	public void setCustomer(Customer customer) {
+//		this.customer = customer;
+//	}
+//
+//	public void setTransactionId(Integer transactionId) {
+//		this.transactionId = transactionId;
+//	}
+//
+//	public void setShowId(Integer showId) {
+//		this.showId = showId;
+//	}
+//	
+//	
 	
 	
 	

@@ -23,16 +23,15 @@ import com.cg.entity.PaymentType;
 import com.cg.entity.Seat;
 import com.cg.entity.SeatState;
 import com.cg.entity.Show;
-
+import com.cg.entity.Theatre;
 import com.cg.entity.Ticket;
 
 @Service
 
 public class BookingService implements IBookingService {
 
-	
-//	@Autowired
-//	IBookingDao dao;
+	@Autowired
+	IBookingDao dao;
 	@Autowired
 	IUniversalDao<Payment> paymentdao;
 	@Autowired
@@ -44,132 +43,63 @@ public class BookingService implements IBookingService {
 	@Autowired
 	IUniversalDao<Show> showdao;
 	
-	public List<Seat> list(List<Seat> seats) {
-			//seats = new ArrayList<Seat>();
-			seats.add(seatdao.findById(245));
-			seats.add(seatdao.findById(246));
-			seats.add(seatdao.findById(247));
-			//System.out.println(seats.size());
-			return seats;
-	}
-	/*
-	public Show showDetails(Show show) {
-		
-		return show;
-		
-	}
-*/
-	public Payment generatePaymentFailed() {
-		Payment payment=new Payment();
-		payment.setPaymentStatus(false);
-		payment.setDate(LocalDateTime.now());
-		
-		paymentdao.save(payment);
-		return payment;
-		
-	}
-	
-	public Payment generatePaymentSuccess(List<Seat> seats) {
-		
-		//seats = new ArrayList<Seat>();
-		//list(seats);
-		
-		Payment payment=new Payment();
-		payment.setPaymentStatus(true);
-		payment.setDate(LocalDateTime.now());
-		payment.setAmount(totalCost(seats));
-		payment.setPaymentType(PaymentType.DEBIT_CARD);
-		//ticket.setTicketId(ticketId);
-		
-		paymentdao.save(payment);
-		return payment;
-		
-	}
-	public Booking generateFailedBooking(List<Seat> seats) {
-		
-		//seats = new ArrayList<Seat>();
-		seats=list(seats);
-		
-		Booking b=new Booking();
-		b.setSeatList(seats);
-		//b.setMovie(show.getMovieName());
-		//b.setShow(show);
-		b.setBookingDate(LocalDate.now());
-		b.setTotalCost(totalCost(seats));
-		//b.setShowId(show.getShowId());
-		Payment p=paymentdao.findById(generatePaymentFailed().getId());
-		
-		//b.setShow(seats[0].);
-		b.setTransactionId(p.getId());
-		return b;
-		
-	}
-	
+	/********************************************************************************************************************
+	*       @author           Manish
+	*       Description       It is a service used for fetching ticket details by id.
+	*       version           1.0
+	*       created date      21-APR-2020
+	********************************************************************************************************************/
 	@Override
-	public Booking generateSuccessBooking(List<Seat> seats) {
-
-		//seats=list(seats);
-		
-		Booking b=new Booking();
-		b.setSeatList(seats);
-		
-		//b.setMovie(show.getMovieName());
-		//b.setShow(show);
-		b.setBookingDate(LocalDate.now());
-		b.setTotalCost(totalCost(seats));
-		//b.setShowId(show.getShowId());
-		Payment p=paymentdao.findById(generatePaymentSuccess(seats).getId());
-		b.setTransactionId(p.getId());
-		bookingdao.save(b);
-		b.setTicket(generateTicket(bookingdao.findById(b.getBookingId()), seats));
+	public Ticket ticketDetails(List<Seat> seats) {
+		Ticket ticket=ticketdao.findById(555);
 		bookSeats(seats);
-		bookingdao.update(b);
-		return b;
-		
+		return ticket;
 	}
-	
-	public Ticket generateTicket(Booking bookingRef,List<Seat> seats) {
-		
-		seats=list(seats);
-		
-		Ticket t=new Ticket();
-		//t.setScreenName(show.getScreenId().getScreenName());
-		t.setNoOfSeats(seats.size());
-		t.setBookingRef(bookingRef);
-		t.setTicketStatus(true);
-		ticketdao.save(t);
-		return t;
-	}
-	
+	/********************************************************************************************************************
+	*       @author           Manish
+	*       Description       It is a service used for cancellation of bookings.
+	*       version           1.0
+	*       created date      21-APR-2020
+	********************************************************************************************************************/
+	@Override
 	public void cancelBooking(List<Seat> seats) {
-		
-		//seats = new ArrayList<Seat>();
 		seats=list(seats);		
 		for (Iterator iterator = seats.iterator(); iterator.hasNext();) {
 			Seat seat = (Seat) iterator.next();
 			seat.setSeatStatus(SeatState.AVAILABLE);
 			seatdao.update(seat);
 		}
-		
 	}
-	
+	/********************************************************************************************************************
+	*       @author           Manish
+	*       Description       It is a service used for calculating total cost.
+	*       version           1.0
+	*       created date      21-APR-2020
+	********************************************************************************************************************/
 	@Override
 	public double totalCost(List<Seat> seats) {
-		//seats = new ArrayList<Seat>();
+
 		seats=list(seats);
 		double price=0;
-//		seats.stream().forEach(seat->price=seat.getSeatPrice()+price);
 		for (Iterator iterator = seats.iterator(); iterator.hasNext();) {
-			
 			Seat seat = (Seat) iterator.next();
-			//System.out.println(seat.getSeatPrice());
 			price+=seat.getSeatPrice();
 		}
 		return price; 
 	}
+	public List<Seat> list(List<Seat> seats) {
+		seats.add(seatdao.findById(245));
+		seats.add(seatdao.findById(246));
+		seats.add(seatdao.findById(247));
+		return seats;
+}
+	/********************************************************************************************************************
+	*       @author           Manish
+	*       Description       It is a service used for converting seat status to booked.
+	*       version           1.0
+	*       created date      21-APR-2020
+	********************************************************************************************************************/
 	public void bookSeats(List<Seat> seats) {
-
-//		seats.stream().forEach(seat->price=seat.getSeatPrice()+price);
 		seats=list(seats);
 		for (Iterator iterator = seats.iterator(); iterator.hasNext();) {
 			Seat seat = (Seat) iterator.next();
@@ -178,3 +108,4 @@ public class BookingService implements IBookingService {
 		}
 	}
 }
+

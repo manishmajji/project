@@ -5,18 +5,27 @@ package com.cg;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.cg.dao.BookingDao;
 import com.cg.dao.IShowDao;
 import com.cg.dao.IUniversalDao;
-
+import com.cg.dao.MovieDao;
+import com.cg.dao.SeatDao;
+import com.cg.dao.TicketDao;
+import com.cg.entity.Booking;
+import com.cg.entity.Customer;
+import com.cg.entity.Movie;
 import com.cg.entity.Seat;
 import com.cg.entity.SeatState;
 import com.cg.entity.Show;
+import com.cg.entity.Ticket;
+import com.cg.service.BookingService;
 
 
 
@@ -32,16 +41,81 @@ public class MovieBookingApplication implements CommandLineRunner {
 	@Autowired
 	IShowDao dao;
 	
+	@Autowired
+	BookingService service;
 	
 	@Autowired
 	IUniversalDao<Show> dao4;
+	
+	@Autowired
+	SeatDao seatdao;
+	
+	@Autowired
+	MovieDao moviedao;
+	
+	@Autowired
+	BookingDao bookingdao;
+	
+	@Autowired
+	TicketDao ticketdao;
+	
 	
 	
 	@Autowired
 	IUniversalDao<Seat> dao6;
 	@Override
 	public void run(String... args) throws Exception {
-
+//		List<Seat> seats = new ArrayList();
+//		seats.add(seatdao.findById(245));
+//		seats.add(seatdao.findById(246));
+//		seats.add(seatdao.findById(247));
+//		System.out.println(service.generateSuccessBooking(seats));
+		//System.out.println(seats.size());
+//		Booking b=new Booking();
+//		
+//		b.setTotalCost(300.0);
+//		b.setShowId(4394393);
+//		b.setTransactionId(48374834);
+//		bookingdao.save(b);
+//		String array[]= {"Telugu"};
+//		String image[]= {"1.jpg"};
+//		Booking b =bookingdao.findById(554);
+//		Movie movie=moviedao.findById(3958398);
+//		movie.setDirector("Trivikram");
+//		//movie.setGenre("Action");
+//		movie.setLanguage(array);
+//		movie.setReleaseYear(2020);
+//		movie.setRuntime(120);
+//		movie.setImageLinks(image);
+//		movie.setMovieName("Ala vaikuntapuramlo");
+//		movie.setTrailerLink("www.dhk.com");
+//		moviedao.update(movie);
+//		b.setMovie(movie);
+//		b.setSeatList(seats);
+//		bookingdao.update(b);
+//		
+//		String array[] = {"a","b","c"};
+//		Ticket t=new Ticket();
+//		t.setNoOfSeats(3);
+//		t.setScreenName("Screen A");
+//		t.setBookingRef(b);
+//		t.setSeatName(array);
+//		t.setTicketStatus(true);
+//		ticketdao.save(t);
+//		Customer customer=ticketdao.findbyId(556);
+//		Ticket ticket=ticketdao.findById(555);
+//		Set<Ticket> tickets= customer.getTicket();
+//		tickets.add(ticket);
+//		customer.setTicket(tickets);
+//		ticketdao.update1(customer);
+		//System.out.println(ticketdao.ticketDetails());
+//		customer.setUsername("kumar");
+//		customer.setEmail("kumar@gmail.com");
+//		customer.setContact("7584464433");
+//		customer.setPassword("Kumar123");
+//		ticketdao.save1(customer);
+//		
+		
 /*
 		//Seat Insertion
 		Show s=dao4.findById(4983493);

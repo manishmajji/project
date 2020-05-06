@@ -14,20 +14,30 @@ import com.cg.entity.Seat;
 
 @Repository
 @Transactional
-public class SeatDao implements IUniversalDao<Seat>,ISeatDao {
+public class SeatDao implements IUniversalDao<Seat> {
 
 	@PersistenceContext
 	private EntityManager em;
-
+	/**************************************************************************************************
+     *Method:                   save
+     *description:              saves the seat details
+     *created by               -Manish
+     *created date             -21-APR-2020
+     **************************************************************************************************/
 	@Override
 	public void save(Seat entityObject) {
-		// TODO Auto-generated method stub
 		em.persist(entityObject);
 	}
-
+	/**************************************************************************************************
+     *Method:                   findById
+     *description:              display the paticular record by id
+     *seatId                	-fetches the details of that particular id
+     *@returns                 -seat details
+     *created by               -Manish
+     *created date             -21-APR-2020
+     **************************************************************************************************/
 	@Override
 	public Seat findById(Integer id) throws EntityNotFoundException,NullPointerException {
-		// TODO Auto-generated method stub
 		Seat seat= em.find(Seat.class,id);
 		if(seat==null)
 		{
@@ -36,10 +46,16 @@ public class SeatDao implements IUniversalDao<Seat>,ISeatDao {
 		System.out.println(seat.getSeatPrice());
 		return seat;
 	}
-
+	/**************************************************************************************************
+     *Method:                   remove
+     *description:              delete the paticular record by id
+     *seatId                	-fetches the details of that particular id
+     *@returns                 -null
+     *created by               -Manish
+     *created date             -21-APR-2020
+     **************************************************************************************************/
 	@Override
 	public Seat remove(Integer id) {
-		// TODO Auto-generated method stub
 		Seat seat=findById(id);
 		if(seat!=null)
 		{
@@ -47,46 +63,78 @@ public class SeatDao implements IUniversalDao<Seat>,ISeatDao {
 		}
 		return null;
 	}
-
+	/**************************************************************************************************
+     *Method:                   remove
+     *description:              deletes the seat
+     *@returns                 -seat details
+     *created by               -Manish
+     *created date             -21-APR-2020
+     **************************************************************************************************/
 	@Override
 	public Seat remove(Seat entityObject) {
-		// TODO Auto-generated method stub
 		em.remove(entityObject);
 		return entityObject;
 	}
-
+	/**************************************************************************************************
+     *Method:                   update
+     *description:              update the paticular record by id
+     *seatId                	-fetches the details of that particular id
+     *@returns                 -seat details
+     *created by               -Manish
+     *created date             -21-APR-2020
+     **************************************************************************************************/
 	@Override
 	public Seat update(Integer id, Seat entityObject) {
-		// TODO Auto-generated method stub
 		Seat seat=findById(id);
 		if(seat==null)
 		{
 			System.out.println("Update error: no such entity exists first save then do this update operation");
 			return null;
 		}
-		
 		return em.merge(entityObject);
 	}
-
+	/**************************************************************************************************
+     *Method:                   findAll
+     *description:              finds all the seats
+     *@returns                 -list of seats
+     *created by               -Manish
+     *created date             -21-APR-2020
+     **************************************************************************************************/
 	@Override
 	public List<Seat> findAll() {
-		// TODO Auto-generated method stub
 		Query q=em.createQuery("From Seat seat");
 		System.out.println(q.getResultList()==null);
 		return (List<Seat>) q.getResultList();
 	}
-
+	/**************************************************************************************************
+     *Method:                   update
+     *description:              update the paticular record by id
+     *seatId                	-fetches the details of that particular id
+     *@returns                  -seat details
+     *created by                -Manish
+     *created date              -21-APR-2020
+     **************************************************************************************************/
 	@Override
 	public Seat update(Seat entityObject) {
-		// TODO Auto-generated method stub
 		Seat seat=findById(entityObject.getSeatId());
 		if(seat==null)
 		{
 			System.out.println("update error: no such entity exists first save then do this update operation");
 			return null;
 		}
-		
 		return em.merge(entityObject);
 	}
-
+	/**************************************************************************************************
+     *Method:                   saveAndgetId
+     *description:              saves and gets particular record
+     *@returns                 -seatId
+     *created by               -Manish
+     *created date             -21-APR-2020
+     **************************************************************************************************/
+	@Override
+	public Integer saveAndgetId(Seat entityObject) {
+		em.persist(entityObject);
+		em.flush();
+		return entityObject.getSeatId();
+	}
 }

@@ -52,8 +52,8 @@ public class Movie {
 	@Column(name="heroine")
 	private String heroine;
 	
-	//@Column(name="trailer_link")
-	//private String trailerLink;
+	@Column(name="trailer_link")
+	private String trailerLink;
 	
 	@Column(name="image_links")
 	private String[] imageLinks;
@@ -157,14 +157,14 @@ public class Movie {
 	public void setHeroine(String heroine) {
 		this.heroine = heroine;
 	}
-/*
+
 	public String getTrailerLink() {
 		return trailerLink;
 	}
 
 	public void setTrailerLink(String trailerLink) {
 		this.trailerLink = trailerLink;
-	}*/
+	}
 
 	public String[] getImageLinks() {
 		return imageLinks;

@@ -30,6 +30,9 @@ public interface IUniversalDao<T> {
 
 	@Transactional
 	public T update(T entityObject);
+
+	@Transactional
+	public Integer saveAndgetId(T entityObject);
 	
 	
 }

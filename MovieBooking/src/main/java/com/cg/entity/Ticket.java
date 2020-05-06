@@ -1,6 +1,8 @@
 package com.cg.entity;
 
 
+import java.util.Arrays;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,12 +45,19 @@ public class Ticket {
 //	@JsonBackReference
 	private Booking bookingRef;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@Autowired
 //	@JsonBackReference
 	private Customer customer;
 	
 	
+	@Override
+	public String toString() {
+		return "Ticket [ticketId=" + ticketId + ", noOfSeats=" + noOfSeats + ", seatName=" + Arrays.toString(seatName)
+				+ ", bookingRef=" + bookingRef + ", customer=" + customer + ", ticketStatus=" + ticketStatus
+				+ ", screenName=" + screenName + "]";
+	}
+
 	@Column(name="ticket_status")
 	private Boolean ticketStatus;
 	
